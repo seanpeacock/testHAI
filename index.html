@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Hailant | AI workforces for Western Canadian enterprises</title>
+  <meta name="description" content="Hailant designs, deploys and governs automated AI workforces that help Western Canadian enterprises scale operational efficiency.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Instrument+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ---------- Hailant design tokens ---------- */
+    :root {
+      --surface: #f5f8fa;
+      --surface-raised: #ffffff;
+      --surface-sunken: #e3ecf0;
+      --ink: #0e1c24;
+      --ink-muted: #46596a;
+      --border: #c9d6dc;
+      --border-strong: #5f7b8b;
+      --brand: #0a6470;
+      --on-brand: #ffffff;
+      --storm: #16313e;
+      --on-storm: #f5f8fa;
+      --on-storm-muted: #c5d5dd;
+      --on-storm-line: rgba(245, 248, 250, 0.22);
+      --accent: #f26a21;
+      --on-accent: #0e1c24;
+      --focus: #0a6470;
+      --critical: #b42318;
+
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-6: 24px;
+      --space-8: 32px;
+      --space-12: 48px;
+      --space-16: 64px;
+
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-pill: 999px;
+
+      --shadow-raised: 0 4px 16px rgba(14, 28, 36, 0.12);
+
+      --font-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+      --font-sans: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --surface: #0b151b;
+        --surface-raised: #12212a;
+        --surface-sunken: #1b3340;
+        --ink: #eaf2f5;
+        --ink-muted: #a3b6c0;
+        --border: #29414d;
+        --border-strong: #6f8a97;
+        --brand: #4fc3d0;
+        --on-brand: #0b151b;
+        --storm: #2d5d73;
+        --on-storm: #eaf2f5;
+        --on-storm-muted: #dbe8ee;
+        --on-storm-line: rgba(234, 242, 245, 0.28);
+        --accent: #ff8a4d;
+        --on-accent: #0e1c24;
+        --focus: #7fd8e2;
+        --critical: #ff9188;
+        --shadow-raised: 0 4px 16px rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    /* ---------- Base ---------- */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      background: var(--surface);
+      color: var(--ink);
+      font: 400 16px/24px var(--font-sans);
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      font-family: var(--font-display);
+      color: inherit;
+    }
+
+    p { margin: 0; }
+    ul, ol { margin: 0; padding: 0; list-style: none; }
+    a { color: var(--brand); }
+
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .on-storm :focus-visible,
+    .site-footer :focus-visible { outline-color: var(--on-storm); }
+
+    .container {
+      width: min(1120px, 100% - 2 * var(--space-4));
+      margin-inline: auto;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: var(--space-4);
+      top: -80px;
+      z-index: 20;
+      padding: var(--space-3) var(--space-4);
+      background: var(--brand);
+      color: var(--on-brand);
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .skip-link:focus { top: var(--space-2); }
+
+    .eyebrow {
+      font-size: 13px;
+      line-height: 16px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--brand);
+    }
+    .on-storm .eyebrow { color: var(--on-storm-muted); }
+
+    .section { padding-block: var(--space-16); }
+
+    .section-head { max-width: 680px; margin-bottom: var(--space-12); }
+    .section-head h2 {
+      margin-top: var(--space-2);
+      font-size: clamp(28px, 4vw, 36px);
+      line-height: 1.17;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .section-head p { margin-top: var(--space-4); color: var(--ink-muted); }
+    .on-storm .section-head p { color: var(--on-storm-muted); }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-4);
+      border: 1px solid transparent;
+      border-radius: var(--radius-md);
+      font: 600 14px/20px var(--font-sans);
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: filter 150ms ease-out, background-color 150ms ease-out;
+    }
+    .btn:hover { filter: brightness(0.92); }
+    .btn-lg { padding: var(--space-4) var(--space-6); font-size: 16px; line-height: 24px; }
+    .btn-brand { background: var(--brand); color: var(--on-brand); }
+    .btn-ember { background: var(--accent); color: var(--on-accent); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--on-storm);
+      border-color: var(--on-storm-muted);
+    }
+    .btn-ghost:hover { filter: none; background: var(--on-storm-line); }
+
+    /* ---------- Header ---------- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+    .site-header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      min-height: 64px;
+    }
+    .logo {
+      font-family: var(--font-display);
+      font-size: 24px;
+      line-height: 1;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .nav-list { display: flex; align-items: center; gap: var(--space-6); }
+    .nav-list a {
+      display: inline-block;
+      padding-block: var(--space-2);
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 600;
+      color: var(--ink-muted);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: color 150ms ease-out, border-color 150ms ease-out;
+    }
+    .nav-list a:hover { color: var(--ink); border-bottom-color: var(--brand); }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      background: var(--storm);
+      color: var(--on-storm);
+      padding-block: var(--space-16);
+    }
+    .hero .container {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      align-items: center;
+      gap: var(--space-12);
+    }
+    .hero h1 {
+      margin-top: var(--space-4);
+      font-size: clamp(40px, 6vw, 64px);
+      line-height: 1;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .hero-lede {
+      max-width: 54ch;
+      margin-top: var(--space-6);
+      font-size: 18px;
+      line-height: 28px;
+      color: var(--on-storm-muted);
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      margin-top: var(--space-8);
+    }
+    .hero-note {
+      margin-top: var(--space-6);
+      font-size: 13px;
+      line-height: 20px;
+      color: var(--on-storm-muted);
+    }
+    .hero-motif { width: 100%; max-width: 440px; justify-self: end; height: auto; }
+    .hero-motif .b-ice { fill: var(--surface-sunken); }
+    .hero-motif .b-brand { fill: var(--brand); }
+    .hero-motif .b-pale { fill: var(--on-storm); }
+    .hero-motif .b-ink { fill: var(--ink); }
+    .hero-motif .cut { fill: var(--storm); }
+    .hero-motif .hail { fill: var(--on-storm); opacity: 0.22; }
+
+    /* ---------- Services ---------- */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+      gap: var(--space-8);
+    }
+    .card {
+      display: flex;
+      flex-direction: column;
+      padding: var(--space-6);
+      background: var(--surface-raised);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+    .card-index {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: 13px;
+      line-height: 16px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--brand);
+    }
+    .card-index::before {
+      content: "";
+      width: 12px;
+      height: 12px;
+      border-radius: var(--radius-pill);
+      background: var(--brand);
+    }
+    .card h3 {
+      margin-top: var(--space-4);
+      font-size: 22px;
+      line-height: 28px;
+      font-weight: 600;
+    }
+    .card > p { margin-top: var(--space-3); color: var(--ink-muted); }
+    .card ul {
+      margin-top: var(--space-6);
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--border);
+      display: grid;
+      gap: var(--space-3);
+      font-size: 14px;
+      line-height: 20px;
+    }
+    .card li { position: relative; padding-left: var(--space-6); }
+    .card li::before {
+      content: "";
+      position: absolute;
+      left: var(--space-1);
+      top: 6px;
+      width: 8px;
+      height: 8px;
+      border-radius: var(--radius-pill);
+      background: var(--border-strong);
+    }
+
+    /* ---------- Process ---------- */
+    .process { background: var(--surface-sunken); }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-8);
+      counter-reset: step;
+    }
+    .step { position: relative; padding-top: 64px; counter-increment: step; }
+    .step::before {
+      content: counter(step);
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-pill);
+      background: var(--brand);
+      color: var(--on-brand);
+      font: 700 20px/1 var(--font-display);
+    }
+    .step::after {
+      content: "";
+      position: absolute;
+      top: 21px;
+      left: 52px;
+      right: calc(-1 * var(--space-8) + 8px);
+      height: 2px;
+      background: var(--border-strong);
+    }
+    .step:last-child::after { display: none; }
+    .step h3 { font-size: 22px; line-height: 28px; font-weight: 600; }
+    .step p { margin-top: var(--space-2); color: var(--ink-muted); font-size: 15px; line-height: 22px; }
+    .step .output {
+      margin-top: var(--space-4);
+      padding-top: var(--space-3);
+      border-top: 1px solid var(--border-strong);
+      font-size: 13px;
+      line-height: 20px;
+      color: var(--ink);
+    }
+    .step .output strong { font-weight: 600; }
+
+    /* ---------- Contact ---------- */
+    .contact { background: var(--storm); color: var(--on-storm); }
+    .contact-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+      gap: var(--space-12);
+      align-items: start;
+    }
+    .form-card {
+      padding: var(--space-8);
+      background: var(--surface-raised);
+      color: var(--ink);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-raised);
+    }
+    .form-card h3 { font-size: 22px; line-height: 28px; font-weight: 600; }
+    .form-card .form-intro { margin-top: var(--space-2); color: var(--ink-muted); font-size: 14px; line-height: 20px; }
+    .form-grid {
+      margin-top: var(--space-6);
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+    .field { display: grid; gap: var(--space-2); }
+    .field.full { grid-column: 1 / -1; }
+    .field label { font-size: 13px; line-height: 16px; font-weight: 600; letter-spacing: 0.02em; }
+    .field .req { color: var(--critical); }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      padding: var(--space-3) var(--space-4);
+      background: var(--surface);
+      color: var(--ink);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      font: 400 16px/24px var(--font-sans);
+    }
+    .field textarea { min-height: 120px; resize: vertical; }
+    .form-actions { margin-top: var(--space-6); display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4); }
+    .form-actions .fine { font-size: 12px; line-height: 16px; color: var(--ink-muted); max-width: 32ch; }
+
+    .offices h3 { font-size: 22px; line-height: 28px; font-weight: 600; }
+    .office-list { margin-top: var(--space-4); }
+    .office-list li {
+      padding-block: var(--space-4);
+      border-top: 1px solid var(--on-storm-line);
+    }
+    .office-list li:last-child { border-bottom: 1px solid var(--on-storm-line); }
+    .office-city { font: 600 18px/24px var(--font-display); }
+    .office-region { font-size: 14px; line-height: 20px; color: var(--on-storm-muted); }
+    .direct { margin-top: var(--space-6); font-size: 14px; line-height: 20px; color: var(--on-storm-muted); }
+    .direct a { color: var(--on-storm); font-weight: 600; }
+
+    /* ---------- Footer ---------- */
+    .site-footer {
+      background: var(--storm);
+      color: var(--on-storm-muted);
+      border-top: 1px solid var(--on-storm-line);
+      font-size: 13px;
+      line-height: 20px;
+    }
+    .site-footer .container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      padding-block: var(--space-6);
+    }
+    .site-footer a { color: var(--on-storm); }
+    .footer-nav { display: flex; gap: var(--space-6); }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 960px) {
+      .hero .container,
+      .contact-layout { grid-template-columns: minmax(0, 1fr); }
+      .hero-motif { justify-self: start; max-width: 360px; }
+
+      .steps { grid-template-columns: minmax(0, 1fr); gap: 0; }
+      .step { padding: 0 0 var(--space-8) 72px; min-height: 64px; }
+      .step:last-child { padding-bottom: 0; }
+      .step::after {
+        top: 52px;
+        bottom: var(--space-2);
+        left: 21px;
+        right: auto;
+        width: 2px;
+        height: auto;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .section { padding-block: var(--space-12); }
+      .hero { padding-block: var(--space-12); }
+      .nav-list { gap: var(--space-4); }
+      .hero-actions .btn { width: 100%; }
+      .form-card { padding: var(--space-6) var(--space-4); }
+      .form-grid { grid-template-columns: minmax(0, 1fr); }
+      .form-actions .btn { width: 100%; }
+      .form-actions .fine { max-width: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="#top" aria-label="Hailant, back to top">Hailant</a>
+      <nav aria-label="Primary">
+        <ul class="nav-list">
+          <li><a href="#services">Services</a></li>
+          <li><a href="#process">Process</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero on-storm" id="top" aria-labelledby="hero-title">
+      <div class="container">
+        <div>
+          <p class="eyebrow">AI workforces for Western Canada</p>
+          <h1 id="hero-title">An automated AI workforce for Western Canadian enterprises.</h1>
+          <p class="hero-lede">Hailant designs, deploys and governs AI agents that take on repetitive operational work, so your teams can grow output without growing overhead.</p>
+          <div class="hero-actions">
+            <a class="btn btn-ember btn-lg" href="#contact">Book a workflow audit</a>
+            <a class="btn btn-ghost btn-lg" href="#process">See how we work</a>
+          </div>
+          <p class="hero-note">Teams in Calgary, Edmonton, Kelowna and Victoria.</p>
+        </div>
+
+        <svg class="hero-motif" viewBox="0 0 480 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <rect class="b-ice" x="96" y="-16" width="192" height="224" rx="16"/>
+          <rect class="b-brand" x="304" y="64" width="192" height="144" rx="16"/>
+          <rect class="b-pale" x="96" y="240" width="96" height="96" rx="16"/>
+          <rect class="b-ink" x="208" y="240" width="160" height="96" rx="16"/>
+          <circle class="hail" cx="32" cy="32" r="5"/>
+          <circle class="cut" cx="160" cy="32" r="10"/>
+          <circle class="cut" cx="224" cy="32" r="10"/>
+          <circle class="hail" cx="352" cy="32" r="5"/>
+          <circle class="hail" cx="416" cy="32" r="5"/>
+          <circle class="hail" cx="64" cy="96" r="5"/>
+          <circle class="cut" cx="128" cy="96" r="10"/>
+          <circle class="cut" cx="192" cy="96" r="10"/>
+          <circle class="cut" cx="256" cy="96" r="10"/>
+          <circle class="cut" cx="320" cy="96" r="10"/>
+          <circle class="cut" cx="384" cy="96" r="10"/>
+          <circle class="cut" cx="448" cy="96" r="10"/>
+          <circle class="hail" cx="32" cy="160" r="5"/>
+          <circle class="cut" cx="160" cy="160" r="10"/>
+          <circle class="cut" cx="224" cy="160" r="10"/>
+          <circle class="cut" cx="352" cy="160" r="10"/>
+          <circle class="cut" cx="416" cy="160" r="10"/>
+          <circle class="hail" cx="64" cy="224" r="5"/>
+          <circle class="hail" cx="32" cy="288" r="5"/>
+          <circle class="cut" cx="160" cy="288" r="10"/>
+          <circle class="cut" cx="224" cy="288" r="10"/>
+          <circle class="cut" cx="288" cy="288" r="10"/>
+          <circle class="cut" cx="352" cy="288" r="10"/>
+          <circle class="hail" cx="416" cy="288" r="5"/>
+          <circle class="hail" cx="64" cy="352" r="5"/>
+          <circle class="hail" cx="448" cy="352" r="5"/>
+        </svg>
+      </div>
+    </section>
+
+    <section class="section" id="services" aria-labelledby="services-title">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Services</p>
+          <h2 id="services-title">Everything between a good idea and a governed AI workforce.</h2>
+          <p>We cover the full lifecycle of an agent programme, so your operations team has one accountable partner from first workflow to ongoing oversight.</p>
+        </div>
+
+        <div class="card-grid">
+          <article class="card">
+            <p class="card-index">01</p>
+            <h3>Agentic Workflow Design</h3>
+            <p>We map the work your teams repeat every day, then design agents, handoffs and human checkpoints around it.</p>
+            <ul>
+              <li>Process discovery and prioritisation by impact and risk</li>
+              <li>Agent roles, tools and escalation rules</li>
+              <li>Human approval steps where they matter</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <p class="card-index">02</p>
+            <h3>Legacy System Integration</h3>
+            <p>Agents are only useful if they can reach your systems. We connect them to the platforms you already run.</p>
+            <ul>
+              <li>Connectors for ERP, CRM and records systems</li>
+              <li>Secure access without replacing what works</li>
+              <li>Data mapping, validation and exception handling</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <p class="card-index">03</p>
+            <h3>Ongoing Optimization &amp; Governance</h3>
+            <p>Once agents are live, we keep them accurate, auditable and improving as your work changes.</p>
+            <ul>
+              <li>Accuracy, cost and exception monitoring</li>
+              <li>Audit trails, access controls and policy reviews</li>
+              <li>Regular tuning and quarterly performance reporting</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section process" id="process" aria-labelledby="process-title">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Process</p>
+          <h2 id="process-title">Audit, build, deploy, monitor.</h2>
+          <p>A clear path from the first conversation to an AI workforce that your team can trust and your leadership can inspect.</p>
+        </div>
+
+        <ol class="steps">
+          <li class="step">
+            <h3>Audit</h3>
+            <p>We shadow the work, map every handoff and rank workflows by impact and risk.</p>
+            <p class="output"><strong>Output:</strong> a prioritised automation roadmap.</p>
+          </li>
+          <li class="step">
+            <h3>Build</h3>
+            <p>We build agents and test them against your real cases, with approvals and escalation designed in.</p>
+            <p class="output"><strong>Output:</strong> tested agents in a staging environment.</p>
+          </li>
+          <li class="step">
+            <h3>Deploy</h3>
+            <p>We connect agents to your systems, train your people and roll out in stages.</p>
+            <p class="output"><strong>Output:</strong> agents working live alongside your team.</p>
+          </li>
+          <li class="step">
+            <h3>Monitor</h3>
+            <p>We track accuracy, cost and exceptions, report on results and tune as your work changes.</p>
+            <p class="output"><strong>Output:</strong> a governed workforce that keeps improving.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section contact on-storm" id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Contact</p>
+          <h2 id="contact-title">Tell us where the work piles up.</h2>
+          <p>Share a few details and we will follow up by email to schedule a workflow audit.</p>
+        </div>
+
+        <div class="contact-layout">
+          <!-- Replace the form action with your form endpoint (for example a Formspree, Netlify Forms or API URL). -->
+          <form class="form-card" action="#" method="post" aria-labelledby="form-title">
+            <h3 id="form-title">Request a workflow audit</h3>
+            <p class="form-intro">Fields marked with <span class="req" style="color:var(--critical)">*</span> are required.</p>
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="name">Full name <span class="req" aria-hidden="true">*</span></label>
+                <input id="name" name="name" type="text" autocomplete="name" required>
+              </div>
+              <div class="field">
+                <label for="email">Work email <span class="req" aria-hidden="true">*</span></label>
+                <input id="email" name="email" type="email" autocomplete="email" required>
+              </div>
+              <div class="field">
+                <label for="company">Company <span class="req" aria-hidden="true">*</span></label>
+                <input id="company" name="company" type="text" autocomplete="organization" required>
+              </div>
+              <div class="field">
+                <label for="office">Nearest office</label>
+                <select id="office" name="office">
+                  <option value="">Select a city</option>
+                  <option>Calgary</option>
+                  <option>Edmonton</option>
+                  <option>Kelowna</option>
+                  <option>Victoria</option>
+                  <option>Elsewhere in Western Canada</option>
+                </select>
+              </div>
+              <div class="field full">
+                <label for="message">What would you like to automate?</label>
+                <textarea id="message" name="message"></textarea>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn btn-brand btn-lg" type="submit">Send request</button>
+              <p class="fine">We will use these details only to respond to your request.</p>
+            </div>
+          </form>
+
+          <aside class="offices" aria-labelledby="offices-title">
+            <h3 id="offices-title">Our presence across the West</h3>
+            <ul class="office-list">
+              <li>
+                <p class="office-city">Calgary</p>
+                <p class="office-region">Alberta</p>
+              </li>
+              <li>
+                <p class="office-city">Edmonton</p>
+                <p class="office-region">Alberta</p>
+              </li>
+              <li>
+                <p class="office-city">Kelowna</p>
+                <p class="office-region">British Columbia</p>
+              </li>
+              <li>
+                <p class="office-city">Victoria</p>
+                <p class="office-region">British Columbia</p>
+              </li>
+            </ul>
+            <p class="direct">Prefer email? Write to <a href="mailto:hello@hailant.example">hello@hailant.example</a>.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Hailant. All rights reserved.</p>
+      <nav aria-label="Footer">
+        <ul class="footer-nav">
+          <li><a href="#services">Services</a></li>
+          <li><a href="#process">Process</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
