@@ -260,6 +260,39 @@ a { color: var(--brand); }
   color: var(--ink-muted);
 }
 .card-meta { margin-top: var(--space-4); font-size: 13px; line-height: 20px; color: var(--ink-muted); }
+.card h3 a { color: inherit; text-decoration: none; }
+.card h3 a:hover { text-decoration: underline; text-decoration-color: var(--brand); text-underline-offset: 4px; }
+
+/* ---------- Blog post ---------- */
+.page-hero.post-hero h1 { max-width: 26ch; }
+.back-link {
+  display: inline-block;
+  color: var(--on-storm-muted);
+  text-decoration: none;
+}
+.back-link:hover { color: var(--on-storm); text-decoration: underline; text-underline-offset: 4px; }
+.post-meta {
+  margin-top: var(--space-4);
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--on-storm-muted);
+}
+.post-body { max-width: 68ch; }
+.post-body > * + * { margin-top: var(--space-4); }
+.post-body h2 {
+  margin-top: var(--space-8);
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 600;
+}
+.post-body ul { list-style: disc; padding-left: var(--space-6); }
+.post-body li + li { margin-top: var(--space-2); }
+.post-footer {
+  max-width: 68ch;
+  margin-top: var(--space-12);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--border);
+}
 
 /* ---------- Hero ---------- */
 .hero {

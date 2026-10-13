@@ -1,0 +1,94 @@
+<!doctype html>
+<!--
+  HOW TO ADD A POST
+  1. Copy this file in the ai-news folder and rename it (for example: my-post-title.html).
+  2. Update the metadata below, the <title>, the <h1>, the date line and the post body.
+  3. Add a card for it in ../ai-news.html, between the POSTS:START and POSTS:END comments.
+
+  POST METADATA (these four fields are what a Markdown front matter block would hold later)
+  title:   Sample post headline
+  date:    2026-10-13
+  topic:   Topic
+  summary: Short summary of the story goes here.
+
+  The post body uses only headings (h2), paragraphs and bullet lists,
+  which map directly to Markdown.
+-->
+<html lang="en-CA">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Sample post headline | Hailant</title>
+  <meta name="description" content="Short summary of the story goes here.">
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Instrument+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="../index.html" aria-label="Hailant, home"><img src="../hailant-logo.png" alt="Hailant" class="logo-img"></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="menu-toggle-bars" aria-hidden="true"></span>
+        Menu
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <ul class="nav-list">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+          <li><a href="../ai-news.html" aria-current="page">AI News</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero post-hero on-storm" aria-labelledby="post-title">
+      <div class="container">
+        <p class="eyebrow"><a class="back-link" href="../ai-news.html">&larr; AI News</a></p>
+        <h1 id="post-title">Sample post headline</h1>
+        <p class="post-meta"><time datetime="2026-10-13">October 13, 2026</time> &middot; Topic</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <article class="post-body">
+          <p>Opening paragraph of the post goes here.</p>
+
+          <h2>Section heading</h2>
+          <p>Body copy goes here. Add more paragraphs as needed.</p>
+          <ul>
+            <li>A bullet point</li>
+            <li>Another bullet point</li>
+          </ul>
+        </article>
+
+        <p class="post-footer"><a href="../ai-news.html">&larr; Back to AI News</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Hailant. All rights reserved.</p>
+      <nav aria-label="Footer">
+        <ul class="footer-nav">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+          <li><a href="../ai-news.html">AI News</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="../site.js"></script>
+</body>
+</html>
