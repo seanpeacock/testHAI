@@ -262,6 +262,8 @@ a { color: var(--brand); }
 .card-meta { margin-top: var(--space-4); font-size: 13px; line-height: 20px; color: var(--ink-muted); }
 .card h3 a { color: inherit; text-decoration: none; }
 .card h3 a:hover { text-decoration: underline; text-decoration-color: var(--brand); text-underline-offset: 4px; }
+/* Two columns on desktop (for sets of four), one column on narrow screens */
+.card-grid.card-grid-2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
 
 /* ---------- Blog post ---------- */
 .page-hero.post-hero h1 { max-width: 26ch; }
