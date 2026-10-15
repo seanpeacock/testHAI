@@ -265,6 +265,13 @@ a { color: var(--brand); }
 /* Two columns on desktop (for sets of four), one column on narrow screens */
 .card-grid.card-grid-2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
 
+/* Offer group under the Services intro cards */
+.offer-group { margin-top: var(--space-12); }
+.offer-group > .eyebrow { margin-bottom: var(--space-6); }
+.card-cta { background: var(--surface-sunken); }
+.card-cta > p { margin-bottom: var(--space-6); }
+.card-cta .btn { margin-top: auto; align-self: flex-start; }
+
 /* ---------- Blog post ---------- */
 .page-hero.post-hero h1 { max-width: 26ch; }
 .back-link {
