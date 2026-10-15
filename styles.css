@@ -531,13 +531,13 @@ a { color: var(--brand); }
   padding-block: var(--space-6) var(--space-4);
   border-bottom: 1px solid var(--on-storm-line);
 }
-.social-label { margin: 0; font-weight: 600; color: var(--on-storm); }
 .social-links { display: flex; flex-wrap: wrap; gap: var(--space-3); }
 .site-footer .social-links a {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-4);
+  justify-content: center;
+  width: 44px;
+  height: 44px;
   border: 1px solid var(--on-storm-line);
   border-radius: var(--radius-pill);
   text-decoration: none;
