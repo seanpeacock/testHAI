@@ -523,6 +523,28 @@ a { color: var(--brand); }
   padding-block: var(--space-6);
 }
 .site-footer a { color: var(--on-storm); }
+
+/* Find us online row */
+.site-footer .social-row {
+  display: grid;
+  gap: var(--space-3);
+  padding-block: var(--space-6) var(--space-4);
+  border-bottom: 1px solid var(--on-storm-line);
+}
+.social-label { margin: 0; font-weight: 600; color: var(--on-storm); }
+.social-links { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+.site-footer .social-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--on-storm-line);
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  transition: background-color 150ms ease-out;
+}
+.site-footer .social-links a:hover { background: var(--on-storm-line); }
+.social-links svg { flex: none; }
 .footer-nav { display: flex; gap: var(--space-6); }
 
 /* ---------- Responsive ---------- */
