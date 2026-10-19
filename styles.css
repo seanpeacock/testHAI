@@ -544,7 +544,7 @@ a { color: var(--brand); }
   transition: background-color 150ms ease-out;
 }
 .site-footer .social-links a:hover { background: var(--on-storm-line); }
-.social-links svg { flex: none; }
+.social-links svg { flex: none; width: 20px; height: 20px; }
 .footer-nav { display: flex; gap: var(--space-6); }
 
 /* ---------- Responsive ---------- */
