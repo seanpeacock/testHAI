@@ -617,3 +617,16 @@ a { color: var(--brand); }
   html { scroll-behavior: auto; }
   * { transition: none !important; }
 }
+
+/* Founder cards (placeholder content) */
+.founders { margin-top: var(--space-8); }
+.founder-card { align-items: flex-start; }
+.founder-card .avatar { width: 96px; height: 96px; margin-bottom: var(--space-4); flex: none; }
+.founder-role { margin: 0 0 var(--space-3); font-weight: 600; color: var(--brand); }
+.founder-link {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; margin-top: auto; border-radius: var(--radius-pill);
+  border: 1px solid var(--line, var(--surface-sunken)); color: var(--ink); text-decoration: none;
+}
+.founder-link:hover { background: var(--surface-sunken); color: var(--brand); }
+.founder-card > p:not(.founder-role) { margin-bottom: var(--space-4); }
