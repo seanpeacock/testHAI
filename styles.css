@@ -265,6 +265,13 @@ a { color: var(--brand); }
 /* Two columns on desktop (for sets of four), one column on narrow screens */
 .card-grid.card-grid-2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
 
+/* Offer group under the Services intro cards */
+.offer-group { margin-top: var(--space-12); }
+.offer-group > .eyebrow { margin-bottom: var(--space-6); }
+.card-cta { background: var(--surface-sunken); }
+.card-cta > p { margin-bottom: var(--space-6); }
+.card-cta .btn { margin-top: auto; align-self: flex-start; }
+
 /* ---------- Blog post ---------- */
 .page-hero.post-hero h1 { max-width: 26ch; }
 .back-link {
@@ -516,6 +523,28 @@ a { color: var(--brand); }
   padding-block: var(--space-6);
 }
 .site-footer a { color: var(--on-storm); }
+
+/* Find us online row */
+.site-footer .social-row {
+  display: grid;
+  gap: var(--space-3);
+  padding-block: var(--space-6) var(--space-4);
+  border-bottom: 1px solid var(--on-storm-line);
+}
+.social-links { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+.site-footer .social-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--on-storm-line);
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  transition: background-color 150ms ease-out;
+}
+.site-footer .social-links a:hover { background: var(--on-storm-line); }
+.social-links svg { flex: none; width: 20px; height: 20px; }
 .footer-nav { display: flex; gap: var(--space-6); }
 
 /* ---------- Responsive ---------- */
@@ -588,3 +617,16 @@ a { color: var(--brand); }
   html { scroll-behavior: auto; }
   * { transition: none !important; }
 }
+
+/* Founder cards (placeholder content) */
+.founders { margin-top: var(--space-8); }
+.founder-card { align-items: flex-start; }
+.founder-card .avatar { width: 96px; height: 96px; margin-bottom: var(--space-4); flex: none; }
+.founder-role { margin: 0 0 var(--space-3); font-weight: 600; color: var(--brand); }
+.founder-link {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; margin-top: auto; border-radius: var(--radius-pill);
+  border: 1px solid var(--line, var(--surface-sunken)); color: var(--ink); text-decoration: none;
+}
+.founder-link:hover { background: var(--surface-sunken); color: var(--brand); }
+.founder-card > p:not(.founder-role) { margin-bottom: var(--space-4); }
