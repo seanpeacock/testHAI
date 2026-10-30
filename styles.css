@@ -630,3 +630,7 @@ a { color: var(--brand); }
 }
 .founder-link:hover { background: var(--surface-sunken); color: var(--brand); }
 .founder-card > p:not(.founder-role) { margin-bottom: var(--space-4); }
+
+/* Business brain / controls pillars */
+.pillar-icon { width: 48px; height: 48px; margin-bottom: var(--space-4); color: var(--brand); flex: none; }
+.card > .btn { margin-top: auto; align-self: flex-start; }
