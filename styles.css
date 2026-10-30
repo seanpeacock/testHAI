@@ -341,13 +341,7 @@ a { color: var(--brand); }
   line-height: 20px;
   color: var(--on-storm-muted);
 }
-.hero-motif { width: 100%; max-width: 440px; justify-self: end; height: auto; }
-.hero-motif .b-ice { fill: var(--surface-sunken); }
-.hero-motif .b-brand { fill: var(--brand); }
-.hero-motif .b-pale { fill: var(--on-storm); }
-.hero-motif .b-ink { fill: var(--ink); }
-.hero-motif .cut { fill: var(--storm); }
-.hero-motif .hail { fill: var(--on-storm); opacity: 0.22; }
+.hero-motif { width: 100%; max-width: 440px; justify-self: end; height: auto; border-radius: var(--radius-lg, 16px); background: #fcfcfb; }
 
 /* ---------- Services ---------- */
 .card-grid {
