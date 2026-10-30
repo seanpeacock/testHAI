@@ -635,3 +635,24 @@ a { color: var(--brand); }
 .pillar-icon { width: 48px; height: 48px; margin-bottom: var(--space-4); color: var(--brand); flex: none; }
 .card > .btn { margin-top: auto; align-self: flex-start; }
 .founder-photo-wide { width: 100%; height: auto; aspect-ratio: 1000 / 494; object-fit: cover; border-radius: var(--radius-md); margin-bottom: var(--space-4); }
+
+/* Align card sections (icon, title, text, divider, button) across each row of cards */
+@supports (grid-template-rows: subgrid) {
+  .card-grid-aligned {
+    row-gap: 0;
+    margin-bottom: calc(var(--space-8) * -1);
+  }
+  .card-grid-aligned > .card {
+    display: grid;
+    grid-row: span 5;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+    align-content: start;
+    margin-bottom: var(--space-8);
+  }
+  .card-grid-aligned > .card > .btn {
+    margin-top: var(--space-6);
+    align-self: start;
+    justify-self: start;
+  }
+}
