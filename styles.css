@@ -656,3 +656,13 @@ a { color: var(--brand); }
     justify-self: start;
   }
 }
+
+/* Contact form: spam trap, status messages, confirmation */
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.form-status { margin-top: var(--space-4); font-size: 14px; line-height: 20px; }
+.form-status:empty { display: none; }
+.form-status-error { color: var(--critical); }
+.form-done { display: grid; gap: var(--space-4); align-content: start; }
+.form-done h2 { font-size: 24px; line-height: 32px; font-weight: 600; }
+.form-done p { color: var(--ink-muted); }
+.form-done .btn { justify-self: start; }
