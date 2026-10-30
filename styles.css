@@ -633,3 +633,4 @@ a { color: var(--brand); }
 
 /* Business brain / controls pillars */
 .pillar-icon { width: 48px; height: 48px; margin-bottom: var(--space-4); color: var(--brand); flex: none; }
+.card > .btn { margin-top: auto; align-self: flex-start; }
