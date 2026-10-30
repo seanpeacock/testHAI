@@ -42,8 +42,8 @@
         </div>
 
         <div class="contact-layout">
-          <!-- Replace the form action with your form endpoint (for example a Formspree, Netlify Forms or API URL). -->
-          <form class="form-card" action="#" method="post" aria-labelledby="form-title">
+          <!-- Submissions go to the Cloudflare Pages Function in functions/api/contact.js, which sends them through Resend. -->
+          <form class="form-card" id="contact-form" action="/api/contact" method="post" aria-labelledby="form-title">
             <h2 id="form-title">Book a conversation</h2>
             <p class="form-intro">Fields marked with <span class="req" style="color:var(--critical)">*</span> are required.</p>
 
@@ -77,10 +77,16 @@
               </div>
             </div>
 
+            <div class="hp" aria-hidden="true">
+              <label for="company_website">Leave this field empty</label>
+              <input id="company_website" name="company_website" type="text" tabindex="-1" autocomplete="off">
+            </div>
+
             <div class="form-actions">
               <button class="btn btn-brand btn-lg" type="submit">Book A Conversation</button>
-              <p class="fine">We will use these details only to respond to your request.</p>
+              <p class="fine">We will use these details only to respond to your request. See our <a href="privacy.html">Privacy Policy</a>.</p>
             </div>
+            <p id="form-status" class="form-status" role="alert" aria-live="polite"></p>
           </form>
 
           <aside class="offices" aria-labelledby="offices-title">
@@ -133,5 +139,6 @@
   </footer>
 
   <script src="site.js"></script>
+  <script src="contact.js"></script>
 </body>
 </html>
