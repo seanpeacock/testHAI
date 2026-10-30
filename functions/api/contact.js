@@ -6,8 +6,7 @@
 //   CONTACT_FROM       sender on a domain verified in Resend. Default: "Hailant Website <website@hailant.ca>"
 //   SEND_CONFIRMATION  set to "true" to also email a confirmation copy to the visitor. Default: off
 
-const OFFICES = ['Calgary', 'Edmonton', 'Kelowna', 'Victoria', 'Elsewhere in Western Canada'];
-const LIMITS = { name: 100, email: 200, company: 150, message: 3000 };
+const LIMITS = { name: 100, email: 200, message: 3000 };
 
 const esc = (s) =>
   String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -62,21 +61,16 @@ export async function onRequestPost({ request, env }) {
   const get = (k) => (form.get(k) || '').toString().trim();
   const name = get('name');
   const email = get('email');
-  const company = get('company');
-  const office = get('office');
   const message = get('message');
 
-  if (!name || !email || !company) {
-    return reply(request, false, 400, 'Please fill in your name, work email, and company.');
+  if (!name || !email) {
+    return reply(request, false, 400, 'Please fill in your name and work email.');
   }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return reply(request, false, 400, 'Please enter a valid email address.');
   }
-  for (const k of ['name', 'email', 'company', 'message']) {
+  for (const k of ['name', 'email', 'message']) {
     if (get(k).length > LIMITS[k]) return reply(request, false, 400, 'One of the fields is too long.');
-  }
-  if (office && !OFFICES.includes(office)) {
-    return reply(request, false, 400, 'Please choose a city from the list.');
   }
   if (!env.RESEND_API_KEY) {
     return reply(request, false, 500, 'The form is not set up yet. Please email us instead.');
@@ -87,13 +81,12 @@ export async function onRequestPost({ request, env }) {
 
   const text =
     'New conversation request\n\n' +
-    'Name: ' + name + '\nEmail: ' + email + '\nCompany: ' + company +
-    '\nNearest office: ' + (office || 'Not given') + '\n\nMessage:\n' + (message || '(none)');
+    'Name: ' + name + '\nEmail: ' + email +
+    '\n\nMessage:\n' + (message || '(none)');
   const html =
     '<h2>New conversation request</h2>' +
     '<p><strong>Name:</strong> ' + esc(name) + '<br><strong>Email:</strong> ' + esc(email) +
-    '<br><strong>Company:</strong> ' + esc(company) +
-    '<br><strong>Nearest office:</strong> ' + esc(office || 'Not given') + '</p>' +
+    '</p>' +
     '<p><strong>Message:</strong></p><p>' + esc(message || '(none)').replace(/\n/g, '<br>') + '</p>';
 
   try {
@@ -101,7 +94,7 @@ export async function onRequestPost({ request, env }) {
       from,
       to: [to],
       reply_to: email,
-      subject: oneLine('New conversation request: ' + name + ' (' + company + ')'),
+      subject: oneLine('New conversation request: ' + name),
       text,
       html,
     });
