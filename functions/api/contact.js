@@ -41,8 +41,12 @@ async function sendEmail(env, payload) {
 
 export async function onRequestPost({ request, env }) {
   // Only accept submissions that come from this site.
-  const origin = request.headers.get('Origin');
-  if (origin && new URL(origin).host !== new URL(request.url).host) {
+  // Browsers always send Origin (or at least Referer) on a form post; scripts often send neither.
+  const here = new URL(request.url).host;
+  const source = request.headers.get('Origin') || request.headers.get('Referer') || '';
+  let sourceHost = '';
+  try { sourceHost = new URL(source).host; } catch (e) { /* missing or malformed */ }
+  if (sourceHost !== here) {
     return reply(request, false, 403, 'This request was not allowed.');
   }
 
@@ -62,6 +66,11 @@ export async function onRequestPost({ request, env }) {
   const name = get('name');
   const email = get('email');
   const message = get('message');
+
+  // Link spam: a genuine enquiry rarely has more than one link. Pretend success so bots move on.
+  if ((message.match(/https?:\/\/|www\./gi) || []).length > 2 || /https?:\/\/|www\./i.test(name)) {
+    return reply(request, true, 200);
+  }
 
   if (!name || !email) {
     return reply(request, false, 400, 'Please fill in your name and work email.');
