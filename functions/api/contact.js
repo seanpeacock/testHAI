@@ -4,6 +4,7 @@
 //   RESEND_API_KEY     (secret, required) your Resend API key
 //   CONTACT_TO         where enquiries are sent. Default: info@hailant.ca
 //   CONTACT_FROM       sender on a domain verified in Resend. Default: "Hailant Website <website@hailant.ca>"
+//   TURNSTILE_SECRET   (secret) Cloudflare Turnstile secret key. When set, every submission must pass Turnstile.
 //   SEND_CONFIRMATION  set to "true" to also email a confirmation copy to the visitor. Default: off
 
 const LIMITS = { name: 100, email: 200, message: 3000 };
@@ -60,6 +61,28 @@ export async function onRequestPost({ request, env }) {
   // Hidden trap field: real visitors never fill it in. Pretend success so bots move on.
   if ((form.get('company_website') || '').toString().trim() !== '') {
     return reply(request, true, 200);
+  }
+
+  // Cloudflare Turnstile: confirm the visitor passed the challenge. Skipped only when no secret is configured.
+  if (env.TURNSTILE_SECRET) {
+    const token = (form.get('cf-turnstile-response') || '').toString();
+    let passed = false;
+    if (token) {
+      try {
+        const v = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+          method: 'POST',
+          body: new URLSearchParams({
+            secret: env.TURNSTILE_SECRET,
+            response: token,
+            remoteip: request.headers.get('CF-Connecting-IP') || '',
+          }),
+        });
+        passed = !!(await v.json()).success;
+      } catch (e) { passed = false; }
+    }
+    if (!passed) {
+      return reply(request, false, 400, 'We could not confirm you are not a robot. Please try again.');
+    }
   }
 
   const get = (k) => (form.get(k) || '').toString().trim();
