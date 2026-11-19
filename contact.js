@@ -49,6 +49,8 @@
         say('error', msg + ' You can also email us at <a href="mailto:info@hailant.ca">info@hailant.ca</a>.');
         button.disabled = false;
         button.textContent = original;
+        // A Turnstile token can only be used once, so get a fresh one for the retry.
+        if (window.turnstile) { try { window.turnstile.reset(); } catch (e) { /* ignore */ } }
       });
   });
 })();

@@ -4,6 +4,7 @@
 //   RESEND_API_KEY     (secret, required) your Resend API key
 //   CONTACT_TO         where enquiries are sent. Default: info@hailant.ca
 //   CONTACT_FROM       sender on a domain verified in Resend. Default: "Hailant Website <website@hailant.ca>"
+//   TURNSTILE_SECRET   (secret) Cloudflare Turnstile secret key. When set, every submission must pass Turnstile.
 //   SEND_CONFIRMATION  set to "true" to also email a confirmation copy to the visitor. Default: off
 
 const LIMITS = { name: 100, email: 200, message: 3000 };
@@ -41,8 +42,12 @@ async function sendEmail(env, payload) {
 
 export async function onRequestPost({ request, env }) {
   // Only accept submissions that come from this site.
-  const origin = request.headers.get('Origin');
-  if (origin && new URL(origin).host !== new URL(request.url).host) {
+  // Browsers always send Origin (or at least Referer) on a form post; scripts often send neither.
+  const here = new URL(request.url).host;
+  const source = request.headers.get('Origin') || request.headers.get('Referer') || '';
+  let sourceHost = '';
+  try { sourceHost = new URL(source).host; } catch (e) { /* missing or malformed */ }
+  if (sourceHost !== here) {
     return reply(request, false, 403, 'This request was not allowed.');
   }
 
@@ -58,10 +63,37 @@ export async function onRequestPost({ request, env }) {
     return reply(request, true, 200);
   }
 
+  // Cloudflare Turnstile: confirm the visitor passed the challenge. Skipped only when no secret is configured.
+  if (env.TURNSTILE_SECRET) {
+    const token = (form.get('cf-turnstile-response') || '').toString();
+    let passed = false;
+    if (token) {
+      try {
+        const v = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+          method: 'POST',
+          body: new URLSearchParams({
+            secret: env.TURNSTILE_SECRET,
+            response: token,
+            remoteip: request.headers.get('CF-Connecting-IP') || '',
+          }),
+        });
+        passed = !!(await v.json()).success;
+      } catch (e) { passed = false; }
+    }
+    if (!passed) {
+      return reply(request, false, 400, 'We could not confirm you are not a robot. Please try again.');
+    }
+  }
+
   const get = (k) => (form.get(k) || '').toString().trim();
   const name = get('name');
   const email = get('email');
   const message = get('message');
+
+  // Link spam: a genuine enquiry rarely has more than one link. Pretend success so bots move on.
+  if ((message.match(/https?:\/\/|www\./gi) || []).length > 2 || /https?:\/\/|www\./i.test(name)) {
+    return reply(request, true, 200);
+  }
 
   if (!name || !email) {
     return reply(request, false, 400, 'Please fill in your name and work email.');
