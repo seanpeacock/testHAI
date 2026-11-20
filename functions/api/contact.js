@@ -5,6 +5,7 @@
 //   CONTACT_TO         where enquiries are sent. Default: info@hailant.ca
 //   CONTACT_FROM       sender on a domain verified in Resend. Default: "Hailant Website <website@hailant.ca>"
 //   TURNSTILE_SECRET   (secret) Cloudflare Turnstile secret key. When set, every submission must pass Turnstile.
+//   TURNSTILE_DEBUG    (optional) set to "true" while setting up to show Cloudflare's failure reason on the form.
 //   SEND_CONFIRMATION  set to "true" to also email a confirmation copy to the visitor. Default: off
 
 const LIMITS = { name: 100, email: 200, message: 3000 };
@@ -67,7 +68,10 @@ export async function onRequestPost({ request, env }) {
   if (env.TURNSTILE_SECRET) {
     const token = (form.get('cf-turnstile-response') || '').toString();
     let passed = false;
-    if (token) {
+    let codes = [];
+    if (!token) {
+      codes = ['missing-token'];
+    } else {
       try {
         const v = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
           method: 'POST',
@@ -77,11 +81,19 @@ export async function onRequestPost({ request, env }) {
             remoteip: request.headers.get('CF-Connecting-IP') || '',
           }),
         });
-        passed = !!(await v.json()).success;
-      } catch (e) { passed = false; }
+        const result = await v.json();
+        passed = !!result.success;
+        codes = result['error-codes'] || [];
+      } catch (e) {
+        codes = ['siteverify-request-failed'];
+      }
     }
     if (!passed) {
-      return reply(request, false, 400, 'We could not confirm you are not a robot. Please try again.');
+      // Cloudflare's reason (for example invalid-input-secret or timeout-or-duplicate) goes to the Pages logs.
+      console.error('Turnstile verification failed:', codes.join(', '));
+      // While setting up, TURNSTILE_DEBUG=true shows the reason on the form. Remove it afterwards.
+      const hint = (env.TURNSTILE_DEBUG || '').toLowerCase() === 'true' ? ' (' + codes.join(', ') + ')' : '';
+      return reply(request, false, 400, 'We could not confirm you are not a robot. Please try again.' + hint);
     }
   }
 
